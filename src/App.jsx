@@ -5,8 +5,8 @@ import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
+import MainFeed from "./pages/MainFeed";
 import AnalyticsPage from "./pages/AnalyticsPage";
-import BookingsPage from "./pages/BookingsPage";
 import FeedbackPage from "./pages/FeedbackPage";
 import AdminPage from "./pages/AdminPage";
 
@@ -21,8 +21,9 @@ function AppContent() {
 
     // Mock initial workers
     const [workers, setWorkers] = useState([
-        { id: 1, name: "Juana Dela Cruz", tesdaCertificate: true, status: "unverified", reliabilityScore: 85 },
-        { id: 2, name: "Mario Rossi", tesdaCertificate: false, status: "unverified", reliabilityScore: 40 },
+        { id: 1, name: "Juana Dela Cruz", tesdaCertificate: true, status: "verified", reliabilityScore: 92, skills: "Plumbing, Pipes, Drainage" },
+        { id: 2, name: "Mario Rossi", tesdaCertificate: false, status: "verified", reliabilityScore: 85, skills: "Electrical, Wiring, Lighting" },
+        { id: 3, name: "Maria Clara", tesdaCertificate: true, status: "unverified", reliabilityScore: 60, skills: "House Cleaning, Janitorial" },
     ]);
 
     // Mock initial bookings
@@ -68,35 +69,33 @@ function AppContent() {
 
     return (
         <div className="app-container" style={{
-            flexDirection: "row",
+            flexDirection: "column",
             height: "100vh",
-            overflow: "hidden",
+            display: "flex",
             padding: 0
         }}>
             {isAuthenticated && <Navbar user={user} notifications={notifications} onLogout={handleLogout} />}
             <div className="page-content" style={{
                 flex: "1",
-                height: "100vh",
+                width: "100%",
                 overflowY: "auto",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center",
-                padding: isAuthenticated ? "40px" : "0",
-                paddingRight: isAuthenticated ? "300px" : "0",
-                transition: "padding-right 0.3s ease",
+                padding: "20px",
                 background: "#08080f",
                 position: "relative"
             }}>
                 {isAuthenticated && (
                     <div style={{
-                        position: "absolute",
-                        top: "30px",
-                        left: "30px",
-                        fontSize: "20px",
-                        fontWeight: "600",
+                        width: "100%",
+                        maxWidth: "1200px",
+                        padding: "0 20px",
+                        marginTop: "20px",
+                        marginBottom: "10px",
+                        fontSize: "24px",
+                        fontWeight: "700",
                         color: "#fff",
-                        zIndex: 10
                     }}>
                         Hi {user.name}!
                     </div>
@@ -117,7 +116,7 @@ function AppContent() {
                     <Route path="/dashboard" element={
                         isAuthenticated ?
                             (user.role === "admin" ? <Navigate to="/admin" /> :
-                                <BookingsPage bookings={bookings} setBookings={setBookings} workers={workers} addNotification={addNotification} />) :
+                                <MainFeed workers={workers} addNotification={addNotification} />) :
                             <Navigate to="/login" />
                     } />
 
