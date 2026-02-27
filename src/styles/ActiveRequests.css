@@ -3,16 +3,16 @@
    =========================== */
 
 .request-card {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 16px;
     padding: 20px;
     transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .request-card:hover {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--input-focus-border);
+    background: var(--input-bg);
 }
 
 /* Card top row: image + info + status */
@@ -29,7 +29,7 @@
     border-radius: 12px;
     overflow: hidden;
     flex-shrink: 0;
-    background: #1a1a2e;
+    background: var(--bg-1);
 }
 
 .request-card-image img {
@@ -47,13 +47,13 @@
 .request-card-info h3 {
     font-size: 16px;
     font-weight: 700;
-    color: #fff;
+    color: var(--text);
     margin: 0 0 4px 0;
 }
 
 .request-card-category {
     font-size: 13px;
-    color: #8b8ba3;
+    color: var(--text-muted);
     margin-bottom: 10px;
 }
 
@@ -69,7 +69,7 @@
     align-items: center;
     gap: 5px;
     font-size: 12px;
-    color: #8b8ba3;
+    color: var(--text-muted);
 }
 
 .request-meta-icon {
@@ -91,27 +91,27 @@
 }
 
 .request-status.pending-approval {
-    background: rgba(108, 92, 231, 0.1);
-    color: #a29bfe;
-    border: 1px solid rgba(108, 92, 231, 0.2);
+    background: var(--status-pending);
+    color: var(--status-pending-text);
+    border: 1px solid var(--status-pending-border);
 }
 
 .request-status.pending-worker {
-    background: rgba(108, 92, 231, 0.1);
-    color: #a29bfe;
-    border: 1px solid rgba(108, 92, 231, 0.2);
+    background: var(--status-pending);
+    color: var(--status-pending-text);
+    border: 1px solid var(--status-pending-border);
 }
 
 .request-status.awaiting-confirmation {
-    background: rgba(255, 255, 255, 0.05);
-    color: #8b8ba3;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--input-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--input-border);
 }
 
 .request-status.confirmed {
-    background: rgba(108, 92, 231, 0.12);
-    color: #a29bfe;
-    border: 1px solid rgba(108, 92, 231, 0.25);
+    background: var(--status-pending);
+    color: var(--status-pending-text);
+    border: 1px solid var(--status-pending-border);
 }
 
 /* Card bottom row: worker info + actions */
@@ -120,7 +120,7 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--card-border);
 }
 
 .request-worker {
@@ -155,7 +155,7 @@
 .request-worker-name {
     font-size: 13px;
     font-weight: 600;
-    color: #fff;
+    color: var(--text);
 }
 
 .request-worker-rating {

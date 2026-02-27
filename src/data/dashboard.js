@@ -3,14 +3,14 @@
 export const activeRequests = [
     {
         id: 1,
-        title: "Pipe Leak Repair",
+        title: "Pipe Repair",
         category: "Plumbing",
         priority: "Emergency",
         date: "Today, 2:00 PM",
         estimatedCost: "$85",
         status: "pending-approval",
         statusLabel: "Pending Approval",
-        image: "/pipe_leak_repair.png",
+        image: "/pipe_repair.png",
         worker: {
             name: "Marcus J.",
             avatar: "👤",
@@ -86,7 +86,7 @@ export const dashboardNotifications = [
     {
         id: 1,
         title: "Booking Updated",
-        message: "Marcus J. accepted your request for Pipe Leak Repair.",
+        message: "Marcus J. accepted your request for Pipe Repair.",
         time: "2 minutes ago",
         unread: true,
     },

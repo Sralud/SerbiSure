@@ -30,14 +30,14 @@
 .dashboard-welcome h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #fff;
+    color: var(--text);
     margin: 0 0 6px 0;
     letter-spacing: -0.5px;
 }
 
 .dashboard-welcome p {
     font-size: 14px;
-    color: #8b8ba3;
+    color: var(--text-muted);
     margin: 0;
 }
 
@@ -48,11 +48,11 @@
     gap: 6px;
     padding: 6px 14px;
     border-radius: 20px;
-    background: rgba(108, 92, 231, 0.1);
-    border: 1px solid rgba(108, 92, 231, 0.2);
+    background: var(--status-pending);
+    border: 1px solid var(--status-pending-border);
     font-size: 12px;
     font-weight: 600;
-    color: #a29bfe;
+    color: var(--status-pending-text);
     white-space: nowrap;
 }
 
@@ -60,7 +60,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #a29bfe;
+    background: var(--status-pending-text);
     animation: pulse-dot 2s ease-in-out infinite;
 }
 
@@ -90,7 +90,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--input-bg);
     border-radius: 10px;
     padding: 4px;
 }
@@ -100,7 +100,7 @@
     border-radius: 8px;
     border: none;
     background: transparent;
-    color: #8b8ba3;
+    color: var(--text-muted);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -139,9 +139,9 @@
     gap: 6px;
     padding: 8px 14px;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #fff;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text);
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
@@ -175,7 +175,7 @@
 .active-requests-header h2 {
     font-size: 18px;
     font-weight: 700;
-    color: #fff;
+    color: var(--text);
     margin: 0;
 }
 
@@ -186,10 +186,10 @@
     min-width: 24px;
     height: 24px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--input-bg);
     font-size: 12px;
     font-weight: 600;
-    color: #8b8ba3;
+    color: var(--text-muted);
     padding: 0 8px;
 }
 

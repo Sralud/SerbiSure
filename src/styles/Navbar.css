@@ -5,8 +5,8 @@
 .navbar {
     width: 100%;
     height: 64px;
-    background: #12121e;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--card-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -39,10 +39,9 @@
 .navbar-brand {
     font-size: 18px;
     font-weight: 700;
-    color: #fff;
+    color: var(--text);
     text-decoration: none;
     letter-spacing: -0.3px;
-    -webkit-text-fill-color: #fff;
     background: none;
 }
 
@@ -55,7 +54,7 @@
 
 .nav-link-item {
     text-decoration: none;
-    color: #8b8ba3;
+    color: var(--text-muted);
     font-weight: 500;
     font-size: 14px;
     transition: color 0.2s ease;
@@ -68,11 +67,11 @@
 }
 
 .nav-link-item:hover {
-    color: #fff;
+    color: var(--text);
 }
 
 .nav-link-item.active {
-    color: #fff;
+    color: var(--text);
 }
 
 /* Right: Actions */
@@ -98,7 +97,7 @@
 }
 
 .btn-icon:hover {
-    color: #fff;
+    color: var(--text);
 }
 
 .notification-badge {
@@ -130,7 +129,7 @@
 }
 
 .navbar-user:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--input-bg);
 }
 
 .navbar-avatar {
@@ -149,7 +148,7 @@
 .navbar-user-name {
     font-size: 14px;
     font-weight: 500;
-    color: #fff;
+    color: var(--text);
 }
 
 .navbar-user-chevron {
@@ -164,11 +163,11 @@
     right: 0;
     top: 50px;
     width: 300px;
-    background: #1a1a2e;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--card-bg-solid);
+    border: 1px solid var(--card-border);
     border-radius: 16px;
     padding: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     z-index: 1100;
     backdrop-filter: blur(20px);
 }
@@ -183,7 +182,7 @@
 .notification-dropdown-header h4 {
     margin: 0;
     font-size: 13px;
-    color: #fff;
+    color: var(--text);
 }
 
 .notification-dropdown .btn-close {
@@ -205,9 +204,9 @@
 .notification-dropdown-item {
     font-size: 12px;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--input-bg);
     border-radius: 8px;
-    color: #a0a0c0;
+    color: var(--text-muted);
 }
 
 .notification-dropdown-empty {

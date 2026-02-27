@@ -35,12 +35,12 @@ function ProfilePage({ user, onUpdateProfile }) {
         <div className="page-wrapper" style={{ width: "100%", maxWidth: "800px" }}>
             {showSuccess && (
                 <div style={{
-                    background: "rgba(108, 92, 231, 0.12)",
-                    color: "#a29bfe",
+                    background: "var(--status-pending)",
+                    color: "var(--status-pending-text)",
                     padding: "14px 20px",
                     borderRadius: "12px",
                     marginBottom: "20px",
-                    border: "1px solid rgba(108, 92, 231, 0.25)",
+                    border: "1px solid var(--status-pending-border)",
                     fontSize: "14px",
                     fontWeight: "500",
                     width: "100%",
@@ -51,16 +51,16 @@ function ProfilePage({ user, onUpdateProfile }) {
             )}
 
             <div style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "var(--card-bg)",
+                border: "1px solid var(--card-border)",
                 borderRadius: "16px",
                 padding: "32px",
                 width: "100%"
             }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "28px" }}>
                     <div>
-                        <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#fff", margin: "0 0 4px 0" }}>My Profile</h2>
-                        <p style={{ fontSize: "13px", color: "#8b8ba3", margin: 0 }}>Personal information for the SerbiSure community</p>
+                        <h2 style={{ fontSize: "24px", fontWeight: "700", color: "var(--text)", margin: "0 0 4px 0" }}>My Profile</h2>
+                        <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: 0 }}>Personal information for the SerbiSure community</p>
                     </div>
                     {!isEditing && (
                         <button onClick={() => setIsEditing(true)} className="btn-primary" style={{ width: "auto", padding: "10px 20px", margin: 0 }}>
@@ -89,8 +89,8 @@ function ProfilePage({ user, onUpdateProfile }) {
                         <span style={{
                             padding: "5px 14px",
                             borderRadius: "16px",
-                            background: "rgba(108, 92, 231, 0.12)",
-                            color: "#a29bfe",
+                            background: "var(--status-pending)",
+                            color: "var(--status-pending-text)",
                             fontSize: "11px",
                             fontWeight: "600",
                             textTransform: "uppercase",
@@ -134,8 +134,8 @@ function ProfilePage({ user, onUpdateProfile }) {
                                     <button type="submit" className="btn-primary" style={{ flex: 2 }}>Save Changes</button>
                                     <button type="button" onClick={() => setIsEditing(false)} style={{
                                         flex: 1, padding: "12px", borderRadius: "12px",
-                                        border: "1px solid rgba(255,255,255,0.1)", background: "transparent",
-                                        color: "#fff", fontSize: "14px", fontWeight: "500", cursor: "pointer", fontFamily: "inherit"
+                                        border: "1px solid var(--card-border)", background: "transparent",
+                                        color: "var(--text)", fontSize: "14px", fontWeight: "500", cursor: "pointer", fontFamily: "inherit"
                                     }}>Cancel</button>
                                 </div>
                             </form>
@@ -143,19 +143,19 @@ function ProfilePage({ user, onUpdateProfile }) {
                             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                                 <div>
                                     <label style={{ display: "block", marginBottom: "4px" }}>Full Name</label>
-                                    <p style={{ fontSize: "18px", fontWeight: "600", color: "#fff", margin: 0 }}>{user.name}</p>
+                                    <p style={{ fontSize: "18px", fontWeight: "600", color: "var(--text)", margin: 0 }}>{user.name}</p>
                                 </div>
                                 <div>
                                     <label style={{ display: "block", marginBottom: "4px" }}>Email Address</label>
-                                    <p style={{ fontSize: "15px", color: "#a0a0c0", margin: 0 }}>{user.email}</p>
+                                    <p style={{ fontSize: "15px", color: "var(--text-muted)", margin: 0 }}>{user.email}</p>
                                 </div>
                                 <div>
                                     <label style={{ display: "block", marginBottom: "4px" }}>Location</label>
-                                    <p style={{ fontSize: "15px", color: "#a0a0c0", margin: 0 }}>{formData.location}</p>
+                                    <p style={{ fontSize: "15px", color: "var(--text-muted)", margin: 0 }}>{formData.location}</p>
                                 </div>
                                 <div>
                                     <label style={{ display: "block", marginBottom: "4px" }}>About Me</label>
-                                    <p style={{ fontSize: "14px", lineHeight: "1.6", color: "#c0c0d8", margin: 0 }}>{formData.about}</p>
+                                    <p style={{ fontSize: "14px", lineHeight: "1.6", color: "var(--text)", margin: 0 }}>{formData.about}</p>
                                 </div>
                                 {user.role === "worker" && (
                                     <div>
@@ -163,9 +163,9 @@ function ProfilePage({ user, onUpdateProfile }) {
                                         <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "4px" }}>
                                             {formData.skills.split(",").map((skill, i) => (
                                                 <span key={i} style={{
-                                                    padding: "4px 12px", background: "rgba(108, 92, 231, 0.1)",
-                                                    border: "1px solid rgba(108, 92, 231, 0.2)", borderRadius: "12px",
-                                                    fontSize: "12px", color: "#a29bfe"
+                                                    padding: "4px 12px", background: "var(--status-pending)",
+                                                    border: "1px solid var(--status-pending-border)", borderRadius: "12px",
+                                                    fontSize: "12px", color: "var(--status-pending-text)"
                                                 }}>{skill.trim()}</span>
                                             ))}
                                         </div>

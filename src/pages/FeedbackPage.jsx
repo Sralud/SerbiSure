@@ -40,10 +40,10 @@ function ServicesPage({ workers, addNotification }) {
         <div className="page-wrapper" style={{ width: "100%", maxWidth: "1100px" }}>
             {/* Header */}
             <div style={{ marginBottom: "28px", width: "100%" }}>
-                <h2 style={{ fontSize: "26px", fontWeight: "700", color: "#fff", margin: "0 0 6px 0" }}>
+                <h2 style={{ fontSize: "26px", fontWeight: "700", color: "var(--text)", margin: "0 0 6px 0" }}>
                     Browse Services
                 </h2>
-                <p style={{ fontSize: "14px", color: "#8b8ba3", margin: 0 }}>
+                <p style={{ fontSize: "14px", color: "var(--text-muted)", margin: 0 }}>
                     Find and book verified service providers for your home
                 </p>
             </div>
@@ -82,9 +82,9 @@ function ServicesPage({ workers, addNotification }) {
                         minWidth: "200px",
                         padding: "12px 18px",
                         borderRadius: "10px",
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: "#fff",
+                        background: "var(--input-bg)",
+                        border: "1px solid var(--input-border)",
+                        color: "var(--text)",
                         fontSize: "14px",
                         outline: "none"
                     }}
@@ -98,8 +98,8 @@ function ServicesPage({ workers, addNotification }) {
                                 padding: "8px 16px",
                                 borderRadius: "8px",
                                 border: "none",
-                                background: selectedCategory === cat ? "#6c5ce7" : "rgba(255,255,255,0.05)",
-                                color: selectedCategory === cat ? "#fff" : "#8b8ba3",
+                                background: selectedCategory === cat ? "var(--accent)" : "var(--input-bg)",
+                                color: selectedCategory === cat ? "#fff" : "var(--text-muted)",
                                 fontSize: "13px",
                                 fontWeight: "600",
                                 cursor: "pointer",
@@ -117,8 +117,8 @@ function ServicesPage({ workers, addNotification }) {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "18px", width: "100%" }}>
                 {filteredWorkers.map(worker => (
                     <div key={worker.id} style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        background: "var(--card-bg)",
+                        border: "1px solid var(--card-border)",
                         borderRadius: "16px",
                         padding: "22px",
                         transition: "border-color 0.2s ease"
@@ -128,7 +128,7 @@ function ServicesPage({ workers, addNotification }) {
                                 width: "52px",
                                 height: "52px",
                                 borderRadius: "50%",
-                                background: "#2a2a44",
+                                background: "var(--bg-1)",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -137,7 +137,7 @@ function ServicesPage({ workers, addNotification }) {
                                 👤
                             </div>
                             <div style={{ flex: 1 }}>
-                                <h3 style={{ margin: "0 0 3px 0", fontSize: "16px", color: "#fff" }}>{worker.name}</h3>
+                                <h3 style={{ margin: "0 0 3px 0", fontSize: "16px", color: "var(--text)" }}>{worker.name}</h3>
                                 <span style={{
                                     fontSize: "11px",
                                     fontWeight: "600",
@@ -153,7 +153,7 @@ function ServicesPage({ workers, addNotification }) {
                                 <div style={{ fontSize: "18px", fontWeight: "700", color: "#f39c12" }}>
                                     {worker.reliabilityScore}%
                                 </div>
-                                <div style={{ fontSize: "10px", color: "#6b6b8a" }}>Reliability</div>
+                                <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>Reliability</div>
                             </div>
                         </div>
 
@@ -162,11 +162,11 @@ function ServicesPage({ workers, addNotification }) {
                             {(worker.skills || "General Labor").split(",").map((skill, i) => (
                                 <span key={i} style={{
                                     padding: "4px 10px",
-                                    background: "rgba(108, 92, 231, 0.1)",
-                                    border: "1px solid rgba(108, 92, 231, 0.2)",
+                                    background: "var(--status-pending)",
+                                    border: "1px solid var(--status-pending-border)",
                                     borderRadius: "12px",
                                     fontSize: "11px",
-                                    color: "#a29bfe",
+                                    color: "var(--status-pending-text)",
                                     fontWeight: "500"
                                 }}>
                                     {skill.trim()}
@@ -181,7 +181,7 @@ function ServicesPage({ workers, addNotification }) {
                             gap: "6px",
                             marginBottom: "16px",
                             fontSize: "12px",
-                            color: worker.tesdaCertificate ? "#2ed573" : "#6b6b8a"
+                            color: worker.tesdaCertificate ? "#2ed573" : "var(--text-muted)"
                         }}>
                             {worker.tesdaCertificate ? "🏅 TESDA Certified" : "No TESDA Certificate"}
                         </div>
@@ -210,7 +210,7 @@ function ServicesPage({ workers, addNotification }) {
             </div>
 
             {filteredWorkers.length === 0 && (
-                <div style={{ textAlign: "center", padding: "40px", color: "#6b6b8a" }}>
+                <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>
                     <p style={{ fontSize: "16px" }}>No workers found matching your search.</p>
                 </div>
             )}
@@ -240,7 +240,7 @@ function ServicesPage({ workers, addNotification }) {
                         boxShadow: "0 20px 60px rgba(0,0,0,0.5)"
                     }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-                            <h3 style={{ margin: 0, fontSize: "20px", color: "#fff" }}>
+                            <h3 style={{ margin: 0, fontSize: "20px", color: "var(--text)" }}>
                                 Book {bookingWorker.name}
                             </h3>
                             <button onClick={() => setBookingWorker(null)} style={{
@@ -308,9 +308,9 @@ function ServicesPage({ workers, addNotification }) {
                                     flex: 1,
                                     padding: "12px",
                                     borderRadius: "12px",
-                                    border: "1px solid rgba(255,255,255,0.1)",
+                                    border: "1px solid var(--card-border)",
                                     background: "transparent",
-                                    color: "#fff",
+                                    color: "var(--text)",
                                     fontSize: "14px",
                                     fontWeight: "500",
                                     cursor: "pointer",

@@ -64,11 +64,11 @@ function HistoryPage({ user }) {
     const getStatusStyle = (status) => {
         switch (status) {
             case "completed":
-                return { background: "rgba(108, 92, 231, 0.1)", color: "#a29bfe", border: "1px solid rgba(108, 92, 231, 0.2)" };
+                return { background: "var(--status-pending)", color: "var(--status-pending-text)", border: "1px solid var(--status-pending-border)" };
             case "cancelled":
-                return { background: "rgba(255, 255, 255, 0.05)", color: "#8b8ba3", border: "1px solid rgba(255, 255, 255, 0.1)" };
+                return { background: "var(--input-bg)", color: "var(--text-muted)", border: "1px solid var(--input-border)" };
             default:
-                return { background: "rgba(255,255,255,0.05)", color: "#8b8ba3", border: "1px solid rgba(255,255,255,0.1)" };
+                return { background: "var(--input-bg)", color: "var(--text-muted)", border: "1px solid var(--input-border)" };
         }
     };
 
@@ -81,10 +81,10 @@ function HistoryPage({ user }) {
         <div className="page-wrapper" style={{ width: "100%", maxWidth: "1100px" }}>
             {/* Header */}
             <div style={{ marginBottom: "28px", width: "100%" }}>
-                <h2 style={{ fontSize: "26px", fontWeight: "700", color: "#fff", margin: "0 0 6px 0" }}>
+                <h2 style={{ fontSize: "26px", fontWeight: "700", color: "var(--text)", margin: "0 0 6px 0" }}>
                     Service History
                 </h2>
-                <p style={{ fontSize: "14px", color: "#8b8ba3", margin: 0 }}>
+                <p style={{ fontSize: "14px", color: "var(--text-muted)", margin: 0 }}>
                     View your past bookings and completed services
                 </p>
             </div>
@@ -92,51 +92,51 @@ function HistoryPage({ user }) {
             {/* Stats Cards */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "16px", marginBottom: "24px", width: "100%" }}>
                 <div style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: "var(--card-bg)",
+                    border: "1px solid var(--card-border)",
                     borderRadius: "14px",
                     padding: "20px",
                     textAlign: "center"
                 }}>
-                    <div style={{ fontSize: "28px", fontWeight: "700", color: "#6c5ce7" }}>
+                    <div style={{ fontSize: "28px", fontWeight: "700", color: "var(--accent)" }}>
                         {serviceHistory.length}
                     </div>
-                    <div style={{ fontSize: "12px", color: "#6b6b8a", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginTop: "4px" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginTop: "4px" }}>
                         Total Bookings
                     </div>
                 </div>
                 <div style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: "var(--card-bg)",
+                    border: "1px solid var(--card-border)",
                     borderRadius: "14px",
                     padding: "20px",
                     textAlign: "center"
                 }}>
-                    <div style={{ fontSize: "28px", fontWeight: "700", color: "#a29bfe" }}>
+                    <div style={{ fontSize: "28px", fontWeight: "700", color: "var(--status-pending-text)" }}>
                         {completedCount}
                     </div>
-                    <div style={{ fontSize: "12px", color: "#6b6b8a", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginTop: "4px" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginTop: "4px" }}>
                         Completed
                     </div>
                 </div>
                 <div style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: "var(--card-bg)",
+                    border: "1px solid var(--card-border)",
                     borderRadius: "14px",
                     padding: "20px",
                     textAlign: "center"
                 }}>
-                    <div style={{ fontSize: "28px", fontWeight: "700", color: "#fff" }}>
+                    <div style={{ fontSize: "28px", fontWeight: "700", color: "var(--text)" }}>
                         ₱{totalSpent.toLocaleString()}
                     </div>
-                    <div style={{ fontSize: "12px", color: "#6b6b8a", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginTop: "4px" }}>
+                    <div style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginTop: "4px" }}>
                         Total Spent
                     </div>
                 </div>
             </div>
 
             {/* Filter tabs */}
-            <div style={{ display: "flex", gap: "6px", marginBottom: "20px", background: "rgba(255,255,255,0.04)", borderRadius: "10px", padding: "4px", width: "fit-content" }}>
+            <div style={{ display: "flex", gap: "6px", marginBottom: "20px", background: "var(--input-bg)", borderRadius: "10px", padding: "4px", width: "fit-content" }}>
                 {["all", "completed", "cancelled"].map(status => (
                     <button
                         key={status}
@@ -145,8 +145,8 @@ function HistoryPage({ user }) {
                             padding: "8px 18px",
                             borderRadius: "8px",
                             border: "none",
-                            background: filterStatus === status ? "#6c5ce7" : "transparent",
-                            color: filterStatus === status ? "#fff" : "#8b8ba3",
+                            background: filterStatus === status ? "var(--accent)" : "transparent",
+                            color: filterStatus === status ? "#fff" : "var(--text-muted)",
                             fontSize: "13px",
                             fontWeight: "600",
                             cursor: "pointer",
@@ -164,8 +164,8 @@ function HistoryPage({ user }) {
             <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
                 {filteredHistory.map(item => (
                     <div key={item.id} style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        background: "var(--card-bg)",
+                        border: "1px solid var(--card-border)",
                         borderRadius: "14px",
                         padding: "16px 20px",
                         display: "flex",
@@ -178,7 +178,7 @@ function HistoryPage({ user }) {
                             width: "44px",
                             height: "44px",
                             borderRadius: "12px",
-                            background: "rgba(108, 92, 231, 0.1)",
+                            background: "var(--status-pending)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -192,10 +192,10 @@ function HistoryPage({ user }) {
 
                         {/* Info */}
                         <div style={{ flex: 1, minWidth: "120px" }}>
-                            <h3 style={{ margin: "0 0 4px 0", fontSize: "15px", color: "#fff", fontWeight: "600" }}>
+                            <h3 style={{ margin: "0 0 4px 0", fontSize: "15px", color: "var(--text)", fontWeight: "600" }}>
                                 {item.title}
                             </h3>
-                            <div style={{ fontSize: "12px", color: "#6b6b8a", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                            <div style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                 <span>{item.category}</span>
                                 <span>•</span>
                                 <span>{item.workerName}</span>
@@ -209,17 +209,17 @@ function HistoryPage({ user }) {
                             {item.rating ? (
                                 <div style={{ display: "flex", gap: "2px" }}>
                                     {[...Array(5)].map((_, i) => (
-                                        <span key={i} style={{ color: i < item.rating ? "#a29bfe" : "#3a3a5a", fontSize: "13px" }}>★</span>
+                                        <span key={i} style={{ color: i < item.rating ? "var(--status-pending-text)" : "var(--input-border)", fontSize: "13px" }}>★</span>
                                     ))}
                                 </div>
                             ) : (
-                                <span style={{ fontSize: "12px", color: "#6b6b8a" }}>No rating</span>
+                                <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>No rating</span>
                             )}
                         </div>
 
                         {/* Cost */}
                         <div style={{ textAlign: "right", flexShrink: 0, minWidth: "70px" }}>
-                            <div style={{ fontSize: "15px", fontWeight: "700", color: "#fff" }}>
+                            <div style={{ fontSize: "15px", fontWeight: "700", color: "var(--text)" }}>
                                 {item.cost}
                             </div>
                         </div>
@@ -242,7 +242,7 @@ function HistoryPage({ user }) {
             </div>
 
             {filteredHistory.length === 0 && (
-                <div style={{ textAlign: "center", padding: "40px", color: "#6b6b8a" }}>
+                <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>
                     <p style={{ fontSize: "16px" }}>No services found for this filter.</p>
                 </div>
             )}
