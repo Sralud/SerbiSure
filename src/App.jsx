@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import { registerUser, loginUser, logoutUser, onAuthChange } from "./firebase/auth";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./styles/App.css";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
-import Navbar from "./components/Navbar";
-import HomeownerDashboardPage from "./pages/HomeownerDashboardPage";
-import ServicesPage from "./pages/FeedbackPage";
+import Registration from "./pages/Registration/Registration";
+import Login from "./pages/Login/Login";
+import Navbar from "./components/Navbar/Navbar";
+import HomeownerDashboardPage from "./pages/HomeownerDashboard/HomeownerDashboardPage";
+import ServicesPage from "./pages/Feedback/FeedbackPage";
 
-import HistoryPage from "./pages/HistoryPage";
-import ProfilePage from "./pages/ProfilePage";
-import SettingsPage from "./pages/SettingsPage";
+import HistoryPage from "./pages/History/HistoryPage";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import SettingsPage from "./pages/Settings/SettingsPage";
 
 function AppContent() {
     const navigate = useNavigate();
