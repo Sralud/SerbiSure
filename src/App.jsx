@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import { registerUser, loginUser, logoutUser, onAuthChange } from "./firebase/auth";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./styles/App.css";
-import Registration from "./pages/Registration/Registration";
-import Login from "./pages/Login/Login";
-import Navbar from "./components/Navbar/Navbar";
-import HomeownerDashboardPage from "./pages/HomeownerDashboard/HomeownerDashboardPage";
-import ServicesPage from "./pages/Feedback/FeedbackPage";
+import Registration from "./pages/Registration";
+import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
+import HomeownerDashboardPage from "./pages/HomeownerDashboardPage";
+import WorkerDashboardPage from "./pages/WorkerDashboardPage";
+import ServicesPage from "./pages/FeedbackPage";
 
-import HistoryPage from "./pages/History/HistoryPage";
-import ProfilePage from "./pages/Profile/ProfilePage";
-import SettingsPage from "./pages/Settings/SettingsPage";
+import HistoryPage from "./pages/HistoryPage";
+import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
 
 function AppContent() {
     const navigate = useNavigate();
@@ -124,9 +125,13 @@ function AppContent() {
 
                     {/* Protected Routes */}
                     <Route path="/dashboard" element={
-                        isAuthenticated ?
-                            <HomeownerDashboardPage user={user} /> :
+                        isAuthenticated ? (
+                            user.role === "worker" ?
+                                <WorkerDashboardPage user={user} /> :
+                                <HomeownerDashboardPage user={user} />
+                        ) : (
                             <Navigate to="/login" />
+                        )
                     } />
 
                     <Route path="/feedback" element={
