@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { bookingsAPI } from "../../api/api";
 
 function ServicesPage({ workers, addNotification }) {
     const [searchQuery, setSearchQuery] = useState("");
@@ -11,11 +12,14 @@ function ServicesPage({ workers, addNotification }) {
         description: ""
     });
     const [showSuccess, setShowSuccess] = useState(false);
+    const [bookingConfirmed, setBookingConfirmed] = useState(false); // Success modal state
 
     const categories = ["All", "Plumbing", "Electrical", "Cleaning", "Carpentry", "Babysitting", "Pet Care", "General Help"];
 
     const filteredWorkers = workers.filter(worker => {
-        const matchesSearch = worker.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        const matchesSearch = 
+            worker.serviceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            worker.providerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
             (worker.skills && worker.skills.toLowerCase().includes(searchQuery.toLowerCase()));
         const matchesCategory = selectedCategory === "All" ||
             (worker.skills && worker.skills.toLowerCase().includes(selectedCategory.toLowerCase()));
@@ -27,13 +31,38 @@ function ServicesPage({ workers, addNotification }) {
         setBookingDetails(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleBookingSubmit = (e) => {
+    const handleBookingSubmit = async (e) => {
         e.preventDefault();
-        addNotification(`Booking request sent to ${bookingWorker.name} for ${bookingDetails.serviceType}!`);
-        setShowSuccess(true);
-        setBookingWorker(null);
-        setBookingDetails({ serviceType: "", date: "", time: "", description: "" });
-        setTimeout(() => setShowSuccess(false), 3000);
+        try {
+            // 1. Sync with Django Backend
+            await bookingsAPI.createBooking({
+                service: bookingWorker.id,
+                scheduled_date: bookingDetails.date,
+            });
+
+            // 2. Show Success
+            setBookingConfirmed(true); // Open success modal
+            setBookingWorker(null);
+            setBookingDetails({ serviceType: "", date: "", time: "", description: "" });
+        } catch (err) {
+            console.error("Booking failed:", err);
+            const status = err.response?.status;
+            const serverMessage = err.response?.data?.message || err.response?.data?.error;
+            const validationErrors = err.response?.data?.errors;
+            
+            let detailedError = `Error ${status || 'Network'}: `;
+            
+            if (validationErrors) {
+                const firstKey = Object.keys(validationErrors)[0];
+                detailedError += `${firstKey}: ${validationErrors[firstKey]}`;
+            } else if (serverMessage) {
+                detailedError += serverMessage;
+            } else {
+                detailedError += err.message || "Unknown error occurred.";
+            }
+
+            alert(detailedError);
+        }
     };
 
     return (
@@ -74,7 +103,7 @@ function ServicesPage({ workers, addNotification }) {
             <div style={{ display: "flex", gap: "12px", marginBottom: "24px", width: "100%", flexWrap: "wrap" }}>
                 <input
                     type="text"
-                    placeholder="Search by name or skill..."
+                    placeholder="Search by provider, title, or skill..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
@@ -139,11 +168,20 @@ function ServicesPage({ workers, addNotification }) {
                                 <i className="fa-solid fa-user" style={{ fontSize: "28px", color: "var(--text-muted)", opacity: 0.8 }}></i>
                             </div>
                             <div style={{ flex: 1 }}>
-                                <h3 style={{ margin: "0 0 3px 0", fontSize: "16px", color: "var(--text)", fontWeight: "600" }}>{worker.name}</h3>
+                                <h3 style={{ margin: "0 0 3px 0", fontSize: "16px", color: "var(--text)", fontWeight: "600" }}>{worker.providerName}</h3>
+                                <span style={{
+                                    fontSize: "13px",
+                                    fontWeight: "600",
+                                    color: "var(--accent)",
+                                    display: "block",
+                                    marginBottom: "4px"
+                                }}>
+                                    {worker.serviceName}
+                                </span>
                                 <span style={{
                                     fontSize: "11px",
                                     fontWeight: "600",
-                                    color: worker.status === "verified" ? "var(--accent)" : "var(--text-muted)",
+                                    color: "var(--text-muted)",
                                     display: "flex",
                                     alignItems: "center",
                                     gap: "4px"
@@ -189,6 +227,16 @@ function ServicesPage({ workers, addNotification }) {
                             {worker.tesdaCertificate ? <span><i className="fa-solid fa-award"></i> TESDA Certified</span> : <span><i className="fa-solid fa-minus" style={{ fontSize: "10px" }}></i> No TESDA Certificate</span>}
                         </div>
 
+                        {/* Description */}
+                        <p style={{ fontSize: "13px", color: "var(--text-muted)", marginBottom: "16px", lineHeight: "1.4" }}>
+                            {worker.description}
+                        </p>
+
+                        {/* Price */}
+                        <div style={{ marginBottom: "16px", fontSize: "16px", fontWeight: "700", color: "var(--text)" }}>
+                            ₱{worker.price} <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: "normal" }}>/ session</span>
+                        </div>
+
                         <button
                             onClick={() => setBookingWorker(worker)}
                             style={{
@@ -218,7 +266,68 @@ function ServicesPage({ workers, addNotification }) {
                 </div>
             )}
 
-            {/* Booking Modal */}
+            {/* Success Modal */}
+            {bookingConfirmed && (
+                <div style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    background: "rgba(0,0,0,0.8)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 3000,
+                    backdropFilter: "blur(8px)"
+                }}>
+                    <div style={{
+                        background: "var(--card-bg-solid)",
+                        border: "1px solid var(--accent)",
+                        borderRadius: "24px",
+                        padding: "40px",
+                        width: "100%",
+                        maxWidth: "400px",
+                        textAlign: "center",
+                        boxShadow: "0 20px 60px rgba(108, 92, 231, 0.4)"
+                    }}>
+                        <div style={{
+                            width: "80px",
+                            height: "80px",
+                            background: "rgba(46, 213, 115, 0.15)",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "0 auto 24px",
+                            color: "#2ed573",
+                            fontSize: "40px"
+                        }}>
+                            <i className="fa-solid fa-check"></i>
+                        </div>
+                        <h2 style={{ color: "var(--text)", margin: "0 0 12px 0", fontSize: "24px" }}>Booking Confirmed!</h2>
+                        <p style={{ color: "var(--text-muted)", marginBottom: "32px", lineHeight: "1.5" }}>
+                            Your request has been sent to the service provider. You can track its status in your history.
+                        </p>
+                        <button
+                            onClick={() => setBookingConfirmed(false)}
+                            style={{
+                                width: "100%",
+                                padding: "14px",
+                                borderRadius: "12px",
+                                border: "none",
+                                background: "var(--accent)",
+                                color: "#fff",
+                                fontWeight: "700",
+                                cursor: "pointer",
+                                fontSize: "16px"
+                            }}
+                        >
+                            Got it, thanks!
+                        </button>
+                    </div>
+                </div>
+            )}
             {bookingWorker && (
                 <div style={{
                     position: "fixed",
@@ -244,7 +353,7 @@ function ServicesPage({ workers, addNotification }) {
                     }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
                             <h3 style={{ margin: 0, fontSize: "20px", color: "var(--text)" }}>
-                                Book {bookingWorker.name}
+                                Book {bookingWorker.providerName}
                             </h3>
                             <button onClick={() => setBookingWorker(null)} style={{
                                 background: "none",

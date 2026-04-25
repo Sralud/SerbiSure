@@ -49,11 +49,13 @@ function AppContent() {
                 // Map Django service model to frontend worker model
                 const mappedWorkers = data.map(service => ({
                     id: service.id,
-                    name: service.provider_name || service.name,
+                    serviceName: service.name,
+                    providerName: service.provider?.full_name || "Verified Worker",
                     status: "verified",
                     reliabilityScore: 90,
-                    skills: service.description,
-                    price: service.price_per_hour
+                    skills: service.category || service.description,
+                    price: service.price,
+                    description: service.description
                 }));
                 setWorkers(mappedWorkers);
             } catch (err) {
@@ -470,7 +472,7 @@ function AppContent() {
                             <Navigate to="/dashboard" />
                     } />
 
-                    <Route path="/feedback" element={
+                    <Route path="/services" element={
                         isAuthenticated && user.role === "homeowner" ?
                             <ServicesPage workers={workers} addNotification={addNotification} /> :
                             <Navigate to="/login" />

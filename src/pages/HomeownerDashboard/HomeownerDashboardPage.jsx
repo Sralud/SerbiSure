@@ -12,6 +12,10 @@ function HomeownerDashboardPage({ user }) {
     const [requests, setRequests] = useState([]);
     const [topWorkers, setTopWorkers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showRatingModal, setShowRatingModal] = useState(false);
+    const [ratingRequest, setRatingRequest] = useState(null);
+    const [starRating, setStarRating] = useState(5);
+    const [reviewComment, setReviewComment] = useState("");
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [messageRequest, setMessageRequest] = useState(null);
     const [messageText, setMessageText] = useState("");
@@ -50,12 +54,12 @@ function HomeownerDashboardPage({ user }) {
                     id: b.id,
                     title: b.service_details?.name || "Service Request",
                     category: b.service_details?.category || "General",
-                    priority: "Normal", // Backend doesn't have priority yet
+                    priority: "Normal", 
                     date: new Date(b.scheduled_date).toLocaleDateString(),
                     estimatedCost: `${b.service_details?.price || 0}`,
                     status: b.status,
-                    statusLabel: b.status.charAt(0).toUpperCase() + b.status.slice(1),
-                    image: `https://placehold.co/200x200/6c5ce7/ffffff?text=${b.service_details?.category?.charAt(0) || 'S'}`, // Reliable text placeholder
+                    statusLabel: b.status === 'confirmed' ? "Accepted" : (b.status === 'completed' ? "Finished" : "Pending"),
+                    image: `https://placehold.co/200x200/6c5ce7/ffffff?text=${b.service_details?.category?.charAt(0) || 'S'}`,
                     worker: b.service_details?.provider ? {
                         name: b.service_details.provider.full_name,
                         rating: 4.8,
@@ -73,7 +77,7 @@ function HomeownerDashboardPage({ user }) {
                 
                 const mappedWorkers = safeServicesData.slice(0, 5).map(s => ({
                     id: s.id,
-                    name: s.provider_details?.full_name || s.name,
+                    name: s.provider?.full_name || s.name,
                     specialty: s.category,
                     rating: 4.9,
                     reliability: "98% Reliable",
@@ -247,8 +251,14 @@ function HomeownerDashboardPage({ user }) {
                                         </div>
                                     </div>
                                     <div className="request-card-actions">
-                                        <button className="btn-details" onClick={() => setSelectedRequest(request)}>Details</button>
-                                        <button className="btn-message" onClick={() => setMessageRequest(request)}>Message</button>
+                                        {request.status === 'completed' ? (
+                                            <button className="btn-message" style={{ background: "var(--accent)" }} onClick={() => { setRatingRequest(request); setShowRatingModal(true); }}>Rate Service</button>
+                                        ) : (
+                                            <>
+                                                <button className="btn-details" onClick={() => setSelectedRequest(request)}>Details</button>
+                                                <button className="btn-message" onClick={() => setMessageRequest(request)}>Message</button>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -277,14 +287,14 @@ function HomeownerDashboardPage({ user }) {
                 <div className="sidebar-cta">
                     <h3>Need a new service?</h3>
                     <p>Find reliable workers for your next project instantly.</p>
-                    <button className="btn-book-now" onClick={() => navigate("/feedback")}>Book Now</button>
+                    <button className="btn-book-now" onClick={() => navigate("/services")}>Book Now</button>
                 </div>
 
                 {/* Top Rated Nearby */}
                 <div className="sidebar-panel">
                     <div className="sidebar-panel-header">
                         <h3>Top Rated Nearby</h3>
-                        <button className="view-all" onClick={() => navigate("/feedback")}>View All</button>
+                        <button className="view-all" onClick={() => navigate("/services")}>View All</button>
                     </div>
                     <div className="top-rated-list">
                         {topWorkers.filter(w => w.rating >= minRating).map(worker => (
@@ -475,6 +485,80 @@ function HomeownerDashboardPage({ user }) {
                                 </div>
                             </form>
                         )}
+                    </div>
+                </div>
+            )}
+            {/* Rating Modal */}
+            {showRatingModal && ratingRequest && (
+                <div style={{
+                    position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+                    background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center",
+                    justifyContent: "center", zIndex: 3000, backdropFilter: "blur(8px)"
+                }}>
+                    <div style={{
+                        background: "var(--card-bg-solid)", border: "1px solid var(--accent)",
+                        borderRadius: "24px", padding: "40px", width: "100%", maxWidth: "400px",
+                        textAlign: "center", boxShadow: "0 20px 60px rgba(108, 92, 231, 0.4)"
+                    }}>
+                        <h2 style={{ color: "var(--text)", margin: "0 0 10px 0" }}>Rate Service</h2>
+                        <p style={{ color: "var(--text-muted)", marginBottom: "24px" }}>How was your experience with {ratingRequest.worker?.name}?</p>
+                        
+                        <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "30px" }}>
+                            {[1, 2, 3, 4, 5].map(star => (
+                                <button 
+                                    key={star} 
+                                    onClick={() => setStarRating(star)}
+                                    style={{ 
+                                        background: "none", border: "none", cursor: "pointer", 
+                                        fontSize: "32px", color: star <= starRating ? "#f39c12" : "var(--card-border)",
+                                        transition: "transform 0.2s"
+                                    }}
+                                >
+                                    <i className={star <= starRating ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
+                                </button>
+                            ))}
+                        </div>
+
+                        <textarea 
+                            placeholder="Add a comment (optional)..."
+                            value={reviewComment}
+                            onChange={e => setReviewComment(e.target.value)}
+                            style={{ 
+                                width: "100%", height: "100px", background: "var(--input-bg)", 
+                                border: "1px solid var(--input-border)", borderRadius: "12px",
+                                color: "var(--text)", padding: "12px", marginBottom: "24px",
+                                resize: "none", fontFamily: "inherit"
+                            }}
+                        />
+
+                        <div style={{ display: "flex", gap: "12px" }}>
+                            <button 
+                                onClick={() => setShowRatingModal(false)}
+                                style={{ flex: 1, padding: "14px", borderRadius: "12px", border: "1px solid var(--card-border)", background: "transparent", color: "var(--text)", fontWeight: "600", cursor: "pointer" }}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                onClick={async () => {
+                                    try {
+                                        await bookingsAPI.updateBooking(ratingRequest.id, { 
+                                            rating: starRating, 
+                                            comment: reviewComment 
+                                        });
+                                        alert(`Thank you! Your ${starRating}-star review has been saved.`);
+                                        setRequests(prev => prev.filter(r => r.id !== ratingRequest.id));
+                                        setShowRatingModal(false);
+                                        setReviewComment("");
+                                    } catch (err) {
+                                        console.error("Failed to save review:", err);
+                                        alert("Could not save review. Please try again.");
+                                    }
+                                }}
+                                style={{ flex: 2, padding: "14px", borderRadius: "12px", border: "none", background: "var(--accent)", color: "#fff", fontWeight: "700", cursor: "pointer" }}
+                            >
+                                Submit Review
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
