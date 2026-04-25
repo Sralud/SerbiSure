@@ -20,12 +20,12 @@ function HistoryPage({ user }) {
                     id: booking.id,
                     title: booking.service_details?.name || "Service Booking",
                     category: booking.service_details?.category || "General",
-                    workerName: booking.service_details?.provider_name || "Assigned Worker",
+                    workerName: booking.service_details?.provider?.full_name || "Assigned Worker",
                     date: new Date(booking.scheduled_date).toLocaleDateString(undefined, {
                         year: 'numeric', month: 'short', day: 'numeric'
                     }),
                     status: booking.status,
-                    rating: null, // Ratings not yet implemented in backend
+                    rating: booking.rating, 
                 }));
                 setServiceHistory(mappedHistory);
             } catch (err) {

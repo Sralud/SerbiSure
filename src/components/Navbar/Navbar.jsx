@@ -29,7 +29,7 @@ function Navbar({ user, notifications, onLogout }) {
                 {user.role === "homeowner" ? (
                     <>
                         <NavLink to="/dashboard" className="nav-link-item">Dashboard</NavLink>
-                        <NavLink to="/feedback" className="nav-link-item">Services</NavLink>
+                        <NavLink to="/services" className="nav-link-item">Services</NavLink>
                     </>
                 ) : (
                     <>

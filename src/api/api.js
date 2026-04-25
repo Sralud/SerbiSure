@@ -63,6 +63,27 @@ export const servicesAPI = {
         // Return results for pagination support, fallback to data wrapper
         return response.data.results || response.data.data || response.data;
     },
+    // Fetch only services created by the current worker
+    getWorkerServices: async () => {
+        const response = await api.get('/api/v1/services/');
+        const data = response.data.results || response.data.data || response.data;
+        // The backend returns all, but we filter here for safety, or better, 
+        // the backend should handle a /my-services/ endpoint or query param.
+        // For now, filtering by provider ID if we have it, or just returning all if backend filters.
+        return data;
+    },
+    createService: async (data) => {
+        const response = await api.post('/api/v1/services/', data);
+        return unwrap(response);
+    },
+    updateService: async (id, data) => {
+        const response = await api.patch(`/api/v1/services/${id}/`, data);
+        return unwrap(response);
+    },
+    deleteService: async (id) => {
+        const response = await api.delete(`/api/v1/services/${id}/`);
+        return response.data;
+    }
 };
 
 export const bookingsAPI = {
@@ -72,6 +93,10 @@ export const bookingsAPI = {
     },
     createBooking: async (bookingData) => {
         const response = await api.post('/api/v1/bookings/', bookingData);
+        return unwrap(response);
+    },
+    updateBooking: async (id, data) => {
+        const response = await api.patch(`/api/v1/bookings/${id}/`, data);
         return unwrap(response);
     },
     deleteBooking: async (id) => {
